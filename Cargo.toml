@@ -1,0 +1,20 @@
+[package]
+name = "typeform-rs"
+version = "0.1.0"
+authors = ["Nikita Puzankov <humb1t@yandex.ru>"]
+edition = "2018"
+description = "REST API client for Typeform written in Rust"
+documentation = "https://gitlab.com/humb1t/typeform-rs"
+homepage = "https://gitlab.com/humb1t/typeform-rs"
+repository = "https://gitlab.com/humb1t/typeform-rs"
+readme = "README.md"
+keywords = ["api", "typeform", "client", "rest"]
+categories = ["web-programming", "api-bindings"]
+license = "MIT OR Apache-2.0"
+
+include = ["src/", "LICENSE-*", "README.md", "CHANGELOG.md", "COPYRIGHT"]
+
+[dependencies]
+isahc = { version = "1.4", features = ["json"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"

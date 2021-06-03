@@ -1,0 +1,43 @@
+image: "rustlang/rust:nightly"
+services:
+  - docker:dind
+variables:
+  DOCKER_TLS_CERTDIR: ""
+stages:
+  - verify
+  - build
+  - publish
+test:cargo:
+  stage: verify
+  cache:         
+    key: "cache-test"         
+    paths:             
+      - ./target
+  script:
+    - rustc --version && cargo --version  
+    - rustup component add rustfmt
+    - rustup component add clippy-preview
+    - cargo fmt --verbose
+    - cargo clippy --verbose
+    - cargo test --all --verbose
+release:cargo:
+  stage: build
+  cache:         
+    key: "cache-release"         
+    paths:             
+      - ./target
+  script:
+    - cargo build --release --verbose
+  artifacts:
+    paths:
+      - target/release/$CI_PROJECT_NAME
+doc:cargo:
+  stage: build
+  script:
+    - cargo doc --no-deps 
+publish:cargo:
+  stage: publish
+  script:
+    - cargo publish --verbose --token $CARGO_TOKEN
+  only:
+    - tags 
